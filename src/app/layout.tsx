@@ -4,6 +4,7 @@ import { EdgeStoreProvider } from "../lib/edgestore";
 import { inter } from "@/components/ui/font";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,7 +26,10 @@ export default async function RootLayout({
       <body className={`${inter.className} antialiased`}>
         {
           <NextIntlClientProvider messages={messages}>
-            <EdgeStoreProvider>{children}</EdgeStoreProvider>
+            <EdgeStoreProvider>
+              {children}
+              <Analytics />
+            </EdgeStoreProvider>
           </NextIntlClientProvider>
         }
       </body>
