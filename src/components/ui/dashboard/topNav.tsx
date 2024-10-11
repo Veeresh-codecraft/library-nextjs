@@ -12,7 +12,7 @@ export default async function TopNav() {
   const credits = userDeatils?.credits ? userDeatils?.credits : 0;
   return (
     <div className="flex h-full flex-row px-3 py-4 md:px-2">
-      <div className="grid grid-row-2 sm:flex sm:flex-col divide-x divide-gray-400">
+      <div className="grid grid-row-2 sm:flex sm:flex-col-2 divide-x divide-gray-400">
         <LocaleSwitcher />
         <div className="flex items-center bg-gray-700 px-4 py-2 rounded-lg">
           <span className="text-gray-400 mr-2">Credits:</span>
