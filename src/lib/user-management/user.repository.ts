@@ -67,8 +67,10 @@ export class UserRepository implements IRepository<IUserBase, IUser> {
     // authority of user
     const organisationUser = data.email.endsWith("codecraft.co.in");
     console.log("organisation User :", organisationUser);
-    const user: Omit<IUser, "id"> = {
+    let count = await db.select({ value: count(users.id) }).from(users);
+    const user:IUser = {
       ...data,
+      id:count++,
       role: organisationUser ? Roles.Professor : Roles.User,
       DOB: null,
       phoneNum: null,
