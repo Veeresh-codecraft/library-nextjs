@@ -62,29 +62,29 @@ export class UserRepository implements IRepository<IUserBase, IUser> {
    * @param {IUserBase} data - The user data.
    * @returns {Promise<IUser>} The created user.
    */
-  // destructure and  then insert
-  type Result = {
- count: number;
-}[];
-
+  // destructure and  then insert 
   async create(data: IUserBase): Promise<IUser> {
-    // authority of user
-    const organisationUser = data.email.endsWith("codecraft.co.in");
-    console.log("organisation User :", organisationUser);
-    let count: Result = await db.select({ value: count(users.id) }).from(users);
-    const user:IUser = {
-      ...data,
-      id:count++,
-      role: organisationUser ? Roles.Professor : Roles.User,
-      DOB: null,
-      phoneNum: null,
-      address: null,
-      credits: 0,
-    };
-    const [result] = await db.insert(usersTable).values(user).returning();
-    console.log(`User with UserId:${result.id} has been added successfully `);
-    return (await this.getById(result.id)) as IUser;
-  }
+  const organisationUser = data.email.endsWith("codecraft.co.in");
+  console.log("organisation User :", organisationUser);
+  
+  const [countResult] = await db.select({ value: count(users.id) }).from(users);
+  const newId = (countResult?.value ?? 0) + 1;
+
+  const user: IUser = {
+    ...data,
+    id: newId,
+    role: organisationUser ? Roles.Professor : Roles.User,
+    DOB: null,
+    phoneNum: null,
+    address: null,
+    credits: 0,
+  };
+
+  const [result] = await db.insert(usersTable).values(user).returning();
+  console.log(`User with UserId:${result.id} has been added successfully `);
+  
+  return (await this.getById(result.id)) as IUser;
+}
 
   /**
    * Retrieves a user by ID.
