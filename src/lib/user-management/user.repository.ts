@@ -68,7 +68,7 @@ export class UserRepository implements IRepository<IUserBase, IUser> {
   console.log("organisation User :", organisationUser);
   
   const [countResult] = await db.select({ value: count(usersTable.id) }).from(usersTable);
-  const newId = (countResult?.value ?? 0) + 1;
+  const newId = (countResult?.value ?? -1) + 1;
 
   const user: IUser = {
     ...data,
