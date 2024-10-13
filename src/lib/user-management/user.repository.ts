@@ -67,7 +67,7 @@ export class UserRepository implements IRepository<IUserBase, IUser> {
   const organisationUser = data.email.endsWith("codecraft.co.in");
   console.log("organisation User :", organisationUser);
   
-  const [countResult] = await db.select({ value: count(users.id) }).from(users);
+  const [countResult] = await db.select({ value: count(usersTable.id) }).from(usersTable);
   const newId = (countResult?.value ?? 0) + 1;
 
   const user: IUser = {
