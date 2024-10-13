@@ -63,11 +63,15 @@ export class UserRepository implements IRepository<IUserBase, IUser> {
    * @returns {Promise<IUser>} The created user.
    */
   // destructure and  then insert
+  type Result = {
+ count: number;
+}[];
+
   async create(data: IUserBase): Promise<IUser> {
     // authority of user
     const organisationUser = data.email.endsWith("codecraft.co.in");
     console.log("organisation User :", organisationUser);
-    let count: Number = await db.select({ value: count(users.id) }).from(users);
+    let count: Result = await db.select({ value: count(users.id) }).from(users);
     const user:IUser = {
       ...data,
       id:count++,
