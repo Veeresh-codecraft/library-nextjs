@@ -17,10 +17,12 @@ export class BookRequestRepository
   implements IRepository<IBookRequestBase, IBookResquest>
 {
   async create(data: IBookRequestBase): Promise<IBookResquest> {
+     const [countResult] = await db.select({ value: count() }).from(bookRequestTable);
+  const newId = (countResult?.value ?? -1) + 1;
     const bookRequest: IBookResquest = {
       ...data,
       requestDate: new Date(),
-      id: 0,
+      id: newId,
       status: "pending",
     };
     const [result] = await db
